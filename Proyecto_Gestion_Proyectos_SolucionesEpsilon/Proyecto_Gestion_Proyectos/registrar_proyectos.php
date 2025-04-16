@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="form-container">
     <h2>Crear Nuevo Proyecto</h2>
-    <form action="proyectos.php" method="POST">
+    <form action="registrar_proyectos.php" method="POST">
         <label for="nombre">Nombre del Proyecto:</label>
         <input type="text" name="nombre" id="nombre" required>
 
@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             confirmButtonText: 'Aceptar'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = 'proyectos.php'; // Redirigir a la página de proyectos
+                window.location.href = 'listar_proyectos.php'; // Redirigir a la página de proyectos
             }
         });
     </script>

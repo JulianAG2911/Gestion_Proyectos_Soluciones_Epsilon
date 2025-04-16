@@ -31,6 +31,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Usuario</title>
     <link rel="stylesheet" href="../CSS/estilos.css"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&family=Roboto+Slab:wght@400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
 </head>
@@ -72,7 +73,10 @@ try {
             <?php endforeach; ?>
         </select>
 
-        <button type="submit">Registrar Usuario</button>
+        <div class="d-flex justify-content-between">
+                <a href="listar_usuarios.php" class="btn btn-secondary">Atrás</a>
+                <button type="submit" class="btn btn-primary">Registrar Evaluación</button>
+            </div>
     </form>
 </div>
 
