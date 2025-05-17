@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'type' => 'error',
                 'message' => 'La cédula o el correo electrónico ya están registrados.'
             ];
-            header("Location: usuario.php");
+            header("Location: listar_usuarios.php");
             exit;
         }
 

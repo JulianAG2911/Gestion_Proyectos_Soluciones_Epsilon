@@ -64,34 +64,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .form-actions {
             grid-column: 2 / 3;
-            text-align: right;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
             margin-top: 20px;
         }
 
-        .btn-submit {
-            background-color: #28a745;
-            color: white;
-            border: none;
+        .btn-accion {
             padding: 10px 20px;
             border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .btn-submit:hover {
-            background-color: #218838;
-        }
-
-        .btn-back {
-            background-color: #6c757d;
-            color: white;
-            padding: 8px 18px;
             border: none;
-            border-radius: 8px;
             cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .btn-back:hover {
-            background-color: #5a6268;
+        .btn-submit {
+            background-color: #0b4c66;
+            color: white;
+        }
+
+        .btn-volver {
+            background-color: #0b4c66;
+            color: white;
+        }
+
+        .btn-submit:hover,
+        .btn-volver:hover {
+            background-color: #083d52;
+            transform: translateY(-2px);
         }
 
         .back-container {
@@ -117,7 +120,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" name="telefono" id="telefono">
 
             <div class="form-actions">
-                <button type="submit" class="btn-submit">Registrar Cliente</button>
+                <a href="RPA.php" class="btn-accion btn-volver">Volver</a>
+                <button type="submit" class="btn-accion btn-submit">Registrar Cliente</button>
             </div>
         </form>
     </div>

@@ -1,13 +1,46 @@
 <?php
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Redirigir al login
+    header("Location: login.php");
     exit();
 }
+
 require_once 'db_config.php';
 include 'Plantilla.php';
+
+// Obtener el nombre del usuario y las tareas asignadas
+try {
+    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+    $stmt = $pdo->prepare("SELECT nombre FROM usuarios WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $usuario = $stmt->fetch();
+
+    // Obtener las tareas asignadas al usuario
+    $stmt = $pdo->prepare("
+        SELECT t.*, p.nombre as proyecto_nombre, e.nombre as estado_nombre 
+        FROM tareas t 
+        JOIN proyectos p ON t.proyecto_id = p.id 
+        JOIN estados e ON t.estado_id = e.id 
+        WHERE t.usuario_id = ? 
+        ORDER BY t.estado_id");
+    $stmt->execute([$_SESSION['user_id']]);
+    $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $usuario['nombre'] = 'Usuario';
+    $tareas = [];
+}
+
+// Organizar tareas por estado
+$tareasPorEstado = [
+    1 => [], // Por Hacer
+    2 => [], // En Progreso
+    3 => []  // Completado
+];
+
+foreach ($tareas as $tarea) {
+    $tareasPorEstado[$tarea['estado_id']][] = $tarea;
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,42 +55,76 @@ include 'Plantilla.php';
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
+        .welcome-banner {
+            background: linear-gradient(135deg, #0b4c66, #083d52);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 0 0 8px 0;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            z-index: 999;
+            width: auto;
+            font-size: 0.9rem;
+        }
+
+        .welcome-banner h1 {
+            color: white;
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 500;
+        }
+
         #container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 1320px;
+            margin: 80px auto 40px;
+            padding: 30px;
         }
 
-        h1, h2 {
-            text-align: center;
-            color: #333;
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
         }
 
-        form {
+        .archivos-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-            border-radius: 8px;
-            background: #f1f1f1;
+            gap: 20px;
+        }
+
+        .tareas-container {
+            border-left: 1px solid #e9ecef;
+            padding-left: 25px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: #0b4c66;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
         }
 
         .add-button {
-            background: #28a745;
+            background: #0b4c66;
             color: white;
-            padding: 10px 15px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            transition: all 0.3s ease;
         }
 
         .add-button:hover {
-            background: #218838;
+            background: #083d52;
+            transform: translateY(-2px);
         }
 
         #file-list {
@@ -111,26 +178,105 @@ include 'Plantilla.php';
         .delete-btn:hover {
             background: #c82333;
         }
+
+        .estado-columna {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .estado-titulo {
+            color: #0b4c66;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0b4c66;
+        }
+
+        .tarea-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .tarea-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tarea-proyecto {
+            font-size: 0.9rem;
+            color: #0b4c66;
+            font-weight: 600;
+        }
+
+        .tarea-titulo {
+            font-size: 1.1rem;
+            margin: 5px 0;
+        }
+
+        .tarea-descripcion {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
     <?php MostrarNavbar(); ?>
 
+    <div class="welcome-banner">
+        <h1>Bienvenido, <?= htmlspecialchars($usuario['nombre']); ?></h1>
+    </div>
+
     <div id="container">
-        <h1>Bienvenido a la Página con Plantilla</h1>
-        <p>Aquí va el contenido específico de cada página.</p>
-
-        <h2>Subir un Archivo</h2>
-        <form id="upload-form" enctype="multipart/form-data">
-            <input type="file" name="file" id="file" required>
-            <button class="add-button"type="submit">Subir</button>
-        </form>
-
-        <div id="upload-status"></div>
-
-        <h2>Archivos Subidos</h2>
-        <div id="file-list">
-            <!-- Aquí se mostrarán los archivos subidos -->
+        <div class="dashboard">
+            <div class="archivos-container">
+                <div class="card">
+                    <h3>Subir Archivos</h3>
+                    <form id="upload-form" enctype="multipart/form-data">
+                        <input type="file" name="file" id="file" required>
+                        <button class="add-button" type="submit">Subir</button>
+                    </form>
+                    <div id="upload-status"></div>
+                </div>
+                <div class="card">
+                    <h3>Archivos Subidos</h3>
+                    <div id="file-list">
+                        <!-- Aquí se mostrarán los archivos subidos -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tareas-container">
+                <h3>Mis Tareas Asignadas</h3>
+                <?php
+                $estados = [1 => "Por Hacer", 2 => "En Progreso", 3 => "Completado"];
+                foreach ($estados as $estadoId => $estadoNombre): ?>
+                    <div class="estado-columna">
+                        <h4 class="estado-titulo"><?= $estadoNombre ?></h4>
+                        <?php if (!empty($tareasPorEstado[$estadoId])): ?>
+                            <?php foreach ($tareasPorEstado[$estadoId] as $tarea): ?>
+                                <div class="tarea-item">
+                                    <div class="tarea-proyecto">
+                                        <?= htmlspecialchars($tarea['proyecto_nombre']) ?>
+                                    </div>
+                                    <div class="tarea-titulo">
+                                        <?= htmlspecialchars($tarea['nombre']) ?>
+                                    </div>
+                                    <div class="tarea-descripcion">
+                                        <?= htmlspecialchars($tarea['descripcion']) ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p>No hay tareas en este estado</p>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 

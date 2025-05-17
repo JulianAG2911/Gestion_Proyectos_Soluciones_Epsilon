@@ -1,4 +1,4 @@
-    <?php 
+<?php 
     session_start();
     require_once 'db_config.php';
     include 'Plantilla.php';
@@ -38,6 +38,23 @@
                 margin: auto;
                 margin-top: 50px;
             }
+        .btn-custom {
+            background-color: #0b4c66 !important;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            min-width: 200px;
+            cursor: pointer;
+        }
+
+        .btn-custom:hover {
+            background-color: #083d52 !important;
+            color: white;
+            transform: translateY(-2px);
+        }
         </style>
     </head>
     <body>
@@ -91,8 +108,8 @@
             </div>
 
             <div class="d-flex justify-content-between">
-                <a href="listar_evaluaciones.php" class="btn btn-secondary">Atrás</a>
-                <button type="submit" class="btn btn-primary">Registrar Evaluación</button>
+                <a href="listar_evaluaciones.php" class="btn btn-custom">Atrás</a>
+                <button type="submit" class="btn btn-custom">Registrar Evaluación</button>
             </div>
         </form>
     </div>

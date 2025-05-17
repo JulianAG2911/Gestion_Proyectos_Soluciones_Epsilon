@@ -36,6 +36,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Gestión de Proyectos</title>
     <link rel="stylesheet" href="../CSS/estilos.css"> 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .botones-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-custom {
+            background-color: #0b4c66;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            min-width: 200px;
+            cursor: pointer;
+        }
+
+        .btn-custom:hover {
+            background-color: #083d52;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
 
@@ -43,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="form-container">
     <h2>Crear Nuevo Proyecto</h2>
-    <form action="registrar_proyectos.php" method="POST">
+    <form id="registroForm" action="registrar_proyectos.php" method="POST">
         <label for="nombre">Nombre del Proyecto:</label>
         <input type="text" name="nombre" id="nombre" required>
 
@@ -58,14 +84,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="Finalizado">Finalizado</option>
             <option value="Inactivo">Inactivo</option>
         </select>
-
-        <button type="submit" class="btn">Crear Proyecto</button>
     </form>
 
-    <!-- Contenedor para los botones "Ver Proyectos Creados" y "Ver Calendario" -->
-    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-        <a href="listar_proyectos.php" class="btn">Ver Proyectos Creados</a>
-        <a href="calendario.php" class="btn">Ver Calendario</a>
+    <div class="botones-container">
+        <a href="listar_proyectos.php" class="btn-custom">Ver Proyectos</a>
+        <button type="submit" form="registroForm" class="btn-custom">Crear Proyecto</button>   
     </div>
 </div>
 

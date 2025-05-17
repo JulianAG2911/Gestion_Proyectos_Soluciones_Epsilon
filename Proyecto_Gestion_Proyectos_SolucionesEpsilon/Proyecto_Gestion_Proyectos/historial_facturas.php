@@ -25,33 +25,87 @@ $facturas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../CSS/contabilidad.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        .main-container {
-            padding: 20px;
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
             width: 90%;
-            margin: 0 auto;
+            max-width: 1320px;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #0b4c66, #083d52);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        th,
-        td {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: center;
-        }
-
-        th {
-            background-color: #007bff;
+        table th {
+            background-color: #0b4c66;
             color: white;
+            padding: 15px;
+            font-weight: 500;
+        }
+
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        table tr:hover {
+            background-color: #f8f9fa;
         }
 
         select {
-            padding: 6px;
+            padding: 8px 12px;
             border-radius: 6px;
+            border: 2px solid #e9ecef;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 120px;
+            font-weight: 500;
+        }
+
+        select:hover {
+            border-color: #0b4c66;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #0b4c66;
+            box-shadow: 0 0 0 3px rgba(11, 76, 102, 0.1);
+        }
+
+        .estado-pagada {
+            color: #28a745;
+            border-color: #28a745;
+        }
+
+        .estado-impaga {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .acciones-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin: 20px 0;
         }
     </style>
 </head>
@@ -59,43 +113,12 @@ $facturas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <?php MostrarNavbar(); ?>
 
-    <style>
-        .form-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 40px auto;
-            width: 90%;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 25px;
-        }
-
-        table th,
-        table td {
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #ccc;
-        }
-
-        table th {
-            background-color: #007bff;
-            color: white;
-        }
-
-        select {
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-    </style>
+    <div class="container mt-4">
+        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66; text-align: center;">Historial de Facturas</h2>
+    </div>
 
     <div class="form-container">
-        <h2 style="text-align: center;">Historial de Facturas</h2>
+
         <table>
             <tr>
                 <th>Cliente</th>
@@ -107,11 +130,12 @@ $facturas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($facturas as $f): ?>
                 <tr>
                     <td><?= htmlspecialchars($f['nombre']) ?></td>
-                    <td><?= $f['fecha_emision'] ?></td>
+                    <td><?= date('d-m-Y', strtotime($f['fecha_emision'])) ?></td>
                     <td>₡<?= number_format($f['monto'], 2) ?></td>
                     <td><?= htmlspecialchars($f['descripcion']) ?></td>
                     <td>
-                        <select onchange="cambiarEstadoFactura(<?= $f['id'] ?>, this.value)">
+                        <select onchange="cambiarEstadoFactura(<?= $f['id'] ?>, this.value, this)" 
+                                class="<?= $f['pagada'] ? 'estado-pagada' : 'estado-impaga' ?>">
                             <option value="1" <?= $f['pagada'] ? 'selected' : '' ?>>Pagada</option>
                             <option value="0" <?= !$f['pagada'] ? 'selected' : '' ?>>Impaga</option>
                         </select>
@@ -122,20 +146,28 @@ $facturas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <script>
-        function cambiarEstadoFactura(id, nuevoEstado) {
+        function cambiarEstadoFactura(id, nuevoEstado, selectElement) {
+            // Actualizar el estilo inmediatamente
+            selectElement.className = nuevoEstado === '1' ? 'estado-pagada' : 'estado-impaga';
+
             fetch('actualizar_estado_factura.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `id=${id}&estado=${nuevoEstado}`
             })
-                .then(res => res.json())
-                .then(data => {
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) {
+                    // Revertir el cambio si hubo error
+                    selectElement.value = nuevoEstado === '1' ? '0' : '1';
+                    selectElement.className = nuevoEstado === '1' ? 'estado-impaga' : 'estado-pagada';
                     Swal.fire({
-                        title: data.success ? 'Actualizado' : 'Error',
-                        text: data.success ? 'Estado actualizado correctamente.' : (data.message || 'No se pudo actualizar.'),
-                        icon: data.success ? 'success' : 'error'
+                        title: 'Error',
+                        text: data.message || 'No se pudo actualizar.',
+                        icon: 'error'
                     });
-                });
+                }
+            });
         }
     </script>
 </body>

@@ -29,6 +29,90 @@ $transacciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Ver Transacciones</title>
     <link rel="stylesheet" href="../CSS/contabilidad.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 40px auto;
+            width: 90%;
+            max-width: 1320px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        table th {
+            background-color: #0b4c66;
+            color: white;
+            padding: 15px;
+            font-weight: 500;
+        }
+
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn-custom {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-edit {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-receipt {
+            background-color: #0b4c66;
+            color: white;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-edit:hover { background-color: #e0a800; }
+        .btn-delete:hover { background-color: #c82333; }
+        .btn-receipt:hover { background-color: #083d52; }
+
+        .container-header {
+            background: linear-gradient(135deg, #0b4c66, #083d52);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+    </style>
     <script>
         function confirmarEliminacion(id) {
             Swal.fire({
@@ -50,8 +134,10 @@ $transacciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 <?php MostrarNavbar(); ?>
-    <div class="main-container">
-        <h2>Listado de Transacciones</h2>
+    <div class="form-container">
+        <div class="container-header">
+            <h2>Listado de Transacciones</h2>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -74,13 +160,15 @@ $transacciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $transaccion['fecha']; ?></td>
                         <td><?php echo $transaccion['categoria'] ?? 'N/A'; ?></td>
                         <td class="actions">
-                            <a href="editar_transaccion.php?id=<?php echo $transaccion['id']; ?>">
-                                <button class="btn-edit">Editar</button>
-                            </a>
-                            <button class="btn-delete" onclick="confirmarEliminacion(<?php echo $transaccion['id']; ?>)">Eliminar</button>
-                            <a href="generar_recibo.php?id=<?php echo $transaccion['id']; ?>" target="_blank">
-                                <button class="btn-receipt">Generar Recibo</button>
-                            </a>
+                            <button class="btn-custom btn-edit" onclick="window.location.href='editar_transaccion.php?id=<?php echo $transaccion['id']; ?>'">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="btn-custom btn-delete" onclick="confirmarEliminacion(<?php echo $transaccion['id']; ?>)">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                            <button class="btn-custom btn-receipt" onclick="window.location.href='generar_recibo.php?id=<?php echo $transaccion['id']; ?>'">
+                                <i class="fas fa-file-alt"></i> Recibo
+                            </button>
                         </td>
                     </tr>
                 <?php endforeach; ?>

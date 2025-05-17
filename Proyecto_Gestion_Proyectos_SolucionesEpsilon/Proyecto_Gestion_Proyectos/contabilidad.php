@@ -108,81 +108,109 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
     <?php MostrarNavbar(); ?>
-
+    <div class="container mt-4">
+        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66; text-align: center;">Contabilidad</h2>
+    </div>
     <style>
         .form-container {
             background: #fff;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             margin: 40px auto;
             width: 85%;
+            max-width: 1320px;
         }
 
         .form-grid {
             display: grid;
             grid-template-columns: 160px 1fr;
-            gap: 15px 20px;
+            gap: 20px;
             align-items: center;
+            margin-bottom: 30px;
         }
 
         .form-grid label {
-            font-weight: bold;
+            color: #0b4c66;
+            font-weight: 600;
         }
 
         .form-grid input,
         .form-grid select {
             width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .form-actions {
-            grid-column: 2 / 3;
-            text-align: right;
-            margin-top: 10px;
+        .form-grid input:focus,
+        .form-grid select:focus {
+            border-color: #0b4c66;
+            box-shadow: 0 0 0 3px rgba(11, 76, 102, 0.1);
+            outline: none;
         }
 
-        .btn-submit {
-            background-color: #28a745;
+        .btn-custom {
+            background-color: #0b4c66;
             color: white;
+            padding: 12px 24px;
             border: none;
-            padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .btn-submit:hover {
-            background-color: #218838;
+        .btn-custom:hover {
+            background-color: #083d52;
+            transform: translateY(-2px);
         }
 
         .btn-group {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin: 25px 0;
         }
 
         .btn-group a button {
-            padding: 10px 18px;
-            border-radius: 8px;
-            background-color: #007bff;
+            background-color: #0b4c66;
             color: white;
+            padding: 12px 24px;
             border: none;
+            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .btn-group a button:hover {
-            background-color: #0056b3;
+            background-color: #083d52;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit {
+            background-color: #0b4c66;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .btn-submit:hover {
+            background-color: #083d52;
+            transform: translateY(-2px);
         }
     </style>
 
     <div class="form-container">
-        <h2 style="text-align:center;">Gestión de Contabilidad</h2>
+        <h2 style="text-align: center; color: #0b4c66; margin-bottom: 25px;">Gestión de Contabilidad</h2>
 
         <div class="btn-group">
-            <a href="agregar_categoria.php"><button>Agregar Nueva Categoría</button></a>
+            <a href="registrar_categoria.php"><button>Registrar Nueva Categoría</button></a>
             <a href="ver_transacciones.php"><button>Ver Transacciones</button></a>
         </div>
 

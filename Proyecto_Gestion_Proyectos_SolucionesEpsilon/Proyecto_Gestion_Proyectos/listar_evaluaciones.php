@@ -79,8 +79,7 @@ include 'plantilla.php';
     <?php MostrarNavbar(); ?>
 
     <div class="container mt-4">
-        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66;">Mis Evaluaciones</h2>
-        <button class="btn btn-primary mb-3" style="background-color: #0b4c66;" onclick="window.location.href='registrar_evaluacion.php'">Registrar Nueva Evaluación</button>
+        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66; text-align:center;">Mis Evaluaciones</h2>
         <div class="card p-3 mb-3">
             <form method="GET" action="listar_evaluaciones.php" class="row g-3">
                 <?php if ($es_admin): ?>
@@ -107,6 +106,7 @@ include 'plantilla.php';
                 </div>
             </form>
         </div>
+        <button class="btn btn-primary mb-3" style="background-color: #0b4c66;" onclick="window.location.href='registrar_evaluacion.php'">Registrar Nueva Evaluación</button>
 
         <!-- Evaluaciones -->
         <?php foreach ($evaluaciones as $evaluacion): ?>

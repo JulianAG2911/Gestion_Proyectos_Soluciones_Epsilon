@@ -35,6 +35,19 @@ if (isset($_GET['id'])) {
     <title>Editar Perfil</title>
     <link rel="stylesheet" href="../CSS/estilos.css"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .btn-custom {
+            background-color: #0b4c66 !important;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #083d52 !important;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
     <?php MostrarNavbar(); ?>
@@ -81,8 +94,8 @@ if (isset($_GET['id'])) {
                             </div>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <button type="submit" class="btn btn-success">Actualizar</button>
-                                <a href="ver_perfil.php" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-custom">Actualizar</button>
+                                <a href="ver_perfil.php" class="btn btn-custom">Cancelar</a>
                             </div>
                         </form>
                     </div>

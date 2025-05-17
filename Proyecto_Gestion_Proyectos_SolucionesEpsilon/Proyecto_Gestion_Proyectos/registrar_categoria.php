@@ -102,20 +102,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .btn-submit {
-            background-color: #007bff;
+            background-color: #0b4c66;
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .btn-submit:hover {
-            background-color: #0056b3;
+            background-color: #083d52;
+            transform: translateY(-2px);
         }
 
         .btn-back {
-            background-color: #6c757d;
+            background-color: #0b4c66;
             color: white;
             border: none;
             padding: 8px 18px;
@@ -123,10 +125,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             cursor: pointer;
             float: right;
             margin-top: 20px;
+            transition: all 0.3s ease;
         }
 
         .btn-back:hover {
-            background-color: #5a6268;
+            background-color: #083d52;
+            transform: translateY(-2px);
         }
     </style>
 

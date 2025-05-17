@@ -100,80 +100,96 @@ if (isset($_GET['exportar']) && $_GET['exportar'] == 'csv') {
     .form-container {
         background: #fff;
         padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         margin: 40px auto;
         width: 85%;
+        max-width: 1320px;
     }
 
     .form-grid {
         display: grid;
         grid-template-columns: 150px 1fr;
-        gap: 15px 20px;
+        gap: 20px;
         align-items: center;
+        margin-bottom: 30px;
     }
 
     .form-grid label {
-        font-weight: bold;
+        color: #0b4c66;
+        font-weight: 600;
     }
 
     .form-grid input,
     .form-grid select {
         width: 100%;
-        padding: 8px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        transition: all 0.3s ease;
     }
 
-    .form-actions {
-        grid-column: 2 / 3;
-        text-align: right;
+    .form-grid input:focus,
+    .form-grid select:focus {
+        border-color: #0b4c66;
+        box-shadow: 0 0 0 3px rgba(11, 76, 102, 0.1);
+        outline: none;
     }
 
-    .btn-submit {
-        background-color: #007bff;
+    .btn-custom {
+        background-color: #0b4c66;
         color: white;
         border: none;
-        padding: 10px 20px;
+        padding: 12px 24px;
         border-radius: 8px;
         cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
     }
 
-    .btn-submit:hover {
-        background-color: #0056b3;
+    .btn-custom:hover {
+        background-color: #083d52;
+        transform: translateY(-2px);
     }
 
     table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 25px;
-    }
-
-    table th,
-    table td {
-        padding: 10px;
-        text-align: center;
-        border: 1px solid #ccc;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     table th {
-        background-color: #007bff;
+        background-color: #0b4c66;
         color: white;
+        padding: 15px;
+        text-align: left;
+    }
+
+    table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #eee;
+    }
+
+    table tr:hover {
+        background-color: #f8f9fa;
     }
 
     .export-buttons {
         display: flex;
         justify-content: flex-end;
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
         gap: 10px;
-        margin-top: 10px;
-    }
-
-    .export-buttons a button {
-        background-color: #28a745;
-    }
-
-    .export-buttons a button:hover {
-        background-color: #218838;
+        margin-top: 20px;
     }
 </style>
 
@@ -191,7 +207,8 @@ if (isset($_GET['exportar']) && $_GET['exportar'] == 'csv') {
         </select>
 
         <div class="form-actions">
-            <button type="submit" class="btn-submit">Ver Reporte</button>
+            <a href="RPA.php" class="btn-custom">Volver</a>
+            <button type="submit" class="btn-custom">Ver Reporte</button>
         </div>
     </form>
 </div>
@@ -202,10 +219,10 @@ if (isset($_GET['exportar']) && $_GET['exportar'] == 'csv') {
 
     <div class="export-buttons">
         <a href="?mes_anio=<?= "$anio-" . str_pad($mes, 2, '0', STR_PAD_LEFT) ?>&estado=<?= $estado ?>&exportar=pdf">
-            <button class="btn-submit">Exportar a PDF</button>
+            <button class="btn-custom">Exportar a PDF</button>
         </a>
         <a href="?mes_anio=<?= "$anio-" . str_pad($mes, 2, '0', STR_PAD_LEFT) ?>&estado=<?= $estado ?>&exportar=csv">
-            <button class="btn-submit">Exportar a CSV</button>
+            <button class="btn-custom">Exportar a CSV</button>
         </a>
     </div>
 

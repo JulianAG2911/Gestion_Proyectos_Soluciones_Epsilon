@@ -1,342 +1,3 @@
-.body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #FFFFFF; 
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    justify-content: center;
-    width: 100%;
-    overflow: hidden; 
-    backdrop-filter: blur(10px); 
-}
-
-/* Contenedor del formulario */
-.form-container {
-    background-color: rgba(255, 255, 255, 0.9); 
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 300px; 
-    text-align: center; 
-}
-
-
-.empleados-table tr:hover {
-    background-color: #F9F9F9; 
-}
-/* Títulos */
-.h2 {
-    color: #084A77; 
-    font-weight: 600; 
-}
-
-/* Etiquetas */
-.label {
-    color: #0B4C66; 
-    display: block;
-    margin-bottom: 5px;
-}
-
-/* Campos de entrada */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="date"],
-select {
-    width: 100%; 
-    padding: 10px;
-    margin-bottom: 15px; 
-    border: 1px solid #CFD0D0; 
-    border-radius: 5px; 
-}
-
-/* Botones */
-.button {
-    background-color: #084A77;
-    color: #FFFFFF; 
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%; 
-}
-
-.button:hover {
-    background-color: #0B4C66;
-}
-
-.table {
-    width: 100%; 
-    border-collapse: collapse; 
-    margin-top: 20px; 
-}
-
-.th, .td {
-    padding: 10px; 
-    text-align: left; 
-    border-bottom: 1px solid #CFD0D0; 
-}
-
-.th {
-    background-color: #084A77; 
-    color: #FFFFFF; 
-}
-
-.add-report {
-    background-color: #0b4c66;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.add-report:hover {
-    background-color: #457b9d;
-}
-
-.reports-list {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.report-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.report-item:last-child {
-    border-bottom: none;
-}
-
-.report-item i {
-    color: #457b9d;
-    margin-right: 10px;
-}
-
-.report-item .actions button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.edit {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.edit:hover {
-    background-color: #0056b3;
-}
-
-.export {
-    background-color: #17a2b8;
-    color: #fff;
-}
-
-.export:hover {
-    background-color: #117a8b;
-}
-
-.delete {
-    background-color: #e63946;
-    color: #fff;
-}
-
-.delete:hover {
-    background-color: #d62828;
-}
-/* CSS ESPECIFICO */
-#registro-rol {
-    background-color: rgba(255, 255, 255, 0.9); 
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 500px; 
-    text-align: center; 
-    
-    }
-    
-    
-    #registro-rol h2 {
-        color: #084A77; 
-        font-weight: 600; 
-    }
-    
-    
-    #registro-rol label {
-        color: #0B4C66;
-        display: block;
-        margin-bottom: 5px;
-    }
-    
-    
-    #registro-rol input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px; 
-        border: 1px solid #CFD0D0; 
-        border-radius: 5px; 
-    }
-    
-    
-    #registro-rol button {
-        background-color: #084A77; 
-        color: #FFFFFF; 
-        border: none;
-        padding: 10px;
-        border-radius: 5px;
-        cursor: pointer;
-        width: 100%; 
-    }
-    
-    #registro-rol button:hover {
-        background-color: #0B4C66; 
-    }
-    
-    .empleados-table {
-        width: 100%; 
-        border-collapse: collapse; 
-        margin-top: 20px; 
-        background-color: #FFFFFF; 
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
-        border-radius: 10px; 
-    }
-    
-    .empleados-table th, .empleados-table td {
-        padding: 10px; 
-        text-align: left; 
-        border-bottom: 1px solid #CFD0D0; 
-    }
-    
-    .empleados-table th {
-        background-color: #084A77; 
-        color: #FFFFFF; 
-    }
-    
-    
-    .empleados-table a {
-        color: #084A77; 
-        text-decoration: none; 
-        margin-right: 10px; 
-    }
-    
-    .empleados-table a:hover {
-        text-decoration: underline; 
-    }
-
-    .title-container {
-        text-align: center; /* Centrar el texto */
-        margin-bottom: 20px; /* Espaciado inferior */
-    }
-
-
-/* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
-
-/* Estilo general del cuerpo */
-body {
-    background-color: #f4f4f4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Asegura que el contenido esté alineado desde la parte superior */
-    min-height: 100vh;
-    padding-top: 0; /* Asegura que no haya padding superior */
-}
-
-/* ==== Navbar (fijo al principio de la página) ==== */
-.navbar {
-    width: 100%;
-    height: 60px;
-    background: #0B4C66;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.navbar a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    margin: 0 10px;
-}
-
-.navbar a:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
-}
-
-/* ==== Contenedor del contenido (debajo del navbar) ==== */
-.form-container {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 100%;
-    text-align: center;
-    margin-top: 80px; 
-}
-
-/* Título */
-h2 {
-    margin-bottom: 15px;
-    color: #333;
-}
-
-/* Información del proyecto */
-p {
-    font-size: 16px;
-    color: #555;
-    margin: 10px 0;
-}
-
-/* ==== Botones estilizados ==== */
-.btn {
-    display: inline-block;
-    padding: 10px 15px;
-    margin: 10px 5px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.btn:hover {
-    transform: scale(1.05);
-}
-
-/* Colores de botones */
-.btn:nth-child(1) { background-color: #007bff; color: white; } /* Editar */
-.btn:nth-child(2) { background-color: #dc3545; color: white; } /* Eliminar */
-.btn:nth-child(3) { background-color: #ffffff; color: white; } /* Volver */
-
-.btn:active {
-    transform: scale(0.95);
-}
-
-
-
 /* Reset básico */
 * {
     margin: 0;
@@ -353,9 +14,10 @@ body {
     align-items: center;
     justify-content: flex-start; 
     min-height: 100vh;
+    padding-top: 0;
 }
 
-/* ==== Navbar Fijo al Inicio ==== */
+/* Navbar */
 .navbar {
     width: 100%;
     height: 60px;
@@ -367,10 +29,9 @@ body {
     top: 0;
     left: 0;
     z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo de los enlaces dentro del navbar */
 .navbar a {
     color: white;
     text-decoration: none;
@@ -383,7 +44,7 @@ body {
     border-radius: 5px;
 }
 
-/* ==== Contenedor del contenido (debajo del navbar) ==== */
+/* Contenedor del formulario */
 .form-container {
     background: #fff;
     padding: 20px;
@@ -392,42 +53,84 @@ body {
     max-width: 1000px;
     width: 100%;
     text-align: center;
-    margin-top: 80px; /* Asegura que el contenido no quede pegado al navbar */
+    margin-top: 80px;
 }
 
-/* Título */
+/* Títulos */
 h2 {
+    color: #0B4C66;
+    font-weight: 600;
     margin-bottom: 20px;
+}
+
+/* Campos de formulario */
+label {
+    font-size: 1.1rem;
+    color: #2C3E50;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 15px;
+    border: 1px solid #BDC3C7;
+    border-radius: 8px;
+    font-size: 1rem;
     color: #333;
+    background-color: #ECF0F1;
+    transition: all 0.3s ease;
 }
 
-/* Filtro por estado */
-form label {
-    font-size: 16px;
-    margin-right: 10px;
-    color: #333;
-}
-
-form select {
-    padding: 5px;
-    font-size: 16px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-form select:focus {
+input:focus,
+select:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: #0B4C66;
 }
 
-/* ==== Estilo de la tabla ==== */
+/* Botones */
+.btn, .btn2 {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn {
+    background-color: #0B4C66;
+}
+
+.btn2 {
+    background-color: #0B4C66;
+}
+
+.btn:hover,
+.btn2:hover {
+    background-color: #083d52;
+    transform: scale(1.05);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+/* Tablas */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 14px;
-    color: #333;
 }
 
 table th,
@@ -438,7 +141,7 @@ table td {
 }
 
 table th {
-    background-color: #007bff;
+    background-color: #0B4C66;
     color: white;
 }
 
@@ -450,53 +153,7 @@ table tr:hover {
     background-color: #f1f1f1;
 }
 
-table td a {
-    padding: 8px 12px;
-    text-decoration: none;
-    border-radius: 5px;
-    background-color: #35addc;
-    color: white;
-    font-weight: bold;
-    margin-right: 5px;
-}
-
-table td a:hover {
-    background-color: #188acc;
-}
-
-table td a.btn {
-    background-color: #007bff;
-}
-
-table td a.btn:hover {
-    background-color: #0056b3;
-}
-
-table td a.btn-delete {
-    background-color: #28a745;
-}
-
-table td a.btn-delete:hover {
-    background-color: #28a745;
-}
-
-/* Botón ordenar */
-a.btn {
-    display: inline-block;
-    padding: 10px 15px;
-    margin: 10px 0;
-    text-decoration: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-a.btn:hover {
-    background-color: #0056b3;
-}
-
-/* Estilos responsivos */
+/* Media queries */
 @media screen and (max-width: 768px) {
     table, table th, table td {
         font-size: 12px;
@@ -506,78 +163,5 @@ a.btn:hover {
     .form-container {
         padding: 15px;
     }
-}
-
-
-.btn2 {
-    display: inline-block;
-    padding: 10px 15px;
-    margin: 10px 0;
-    text-decoration: none;
-    background-color: #2677a7;
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-a.btn2:hover {
-    background-color: #2677a7;
-}
-
-.form-container form .btn-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 300px; 
-}
-
-.form-container form .btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    width: 50%;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-}
-
-label {
-    font-size: 1.1rem;
-    color: #2C3E50;
-}
-
-select, input[type="text"] {
-    padding: 0.8rem;
-    border: 1px solid #BDC3C7;
-    border-radius: 8px;
-    font-size: 1rem;
-    color: #333;
-    background-color: #ECF0F1;
-    transition: all 0.3s ease;
-}
-
-select:focus, input[type="text"]:focus {
-    outline: none;
-    border-color: #3498db;
-}
-
-button.submit-btn {
-    padding: 0.9rem;
-    background-color: #3498db;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-button.submit-btn:hover {
-    background-color: #2980b9;
 }
 

@@ -32,44 +32,106 @@ try {
     <link rel="stylesheet" href="../CSS/estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .btn-accion {
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+            border: none;
+        }
+
+        .btn-registrar {
+            background-color: #0b4c66;
+            color: white;
+        }
+
+        .btn-editar {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .btn-eliminar {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-registrar:hover {
+            background-color: #083d52;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-editar:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-eliminar:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .table {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-dark th {
+            background-color: #0b4c66;
+        }
+    </style>
 </head>
 <body>
     <?php MostrarNavbar(); ?>
-
+    <div class="container mt-4">
+        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66; text-align: center;">Roles</h2>
+    </div>
     <div class="container mt-4">
         <h2 class="text-center mb-4">Lista de Roles</h2>
-        <div class="text-center mt-3">
-            <a href="registrar_roles.php" class="btn btn-success">Registrar Nuevo Rol</a>
+        <div class="text-center mt-3 mb-4">
+            <a href="registrar_roles.php" class="btn-accion btn-registrar">Registrar Nuevo Rol</a>
         </div>
-        <table class="table table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre del Rol</th>
-                    <th>Número de Empleados</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($roles)): ?>
-                    <?php foreach ($roles as $rol): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($rol['id']) ?></td>
-                            <td><?= htmlspecialchars($rol['nombre']) ?></td>
-                            <td><?= htmlspecialchars($rol['num_usuarios']) ?></td>
-                            <td>
-                                <a href="editar_rol.php?id=<?= $rol['id'] ?>" class="btn btn-primary btn-sm">Editar</a>
-                                <a href="javascript:void(0);" class="btn" onclick="confirmarEliminar(<?= $rol['id']; ?>);">Eliminar</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+        
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="table-dark">
                     <tr>
-                        <td colspan="4" class="text-center">No hay roles registrados.</td>
+                        <th>ID</th>
+                        <th>Nombre del Rol</th>
+                        <th>Número de Empleados</th>
+                        <th>Acciones</th>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php if (!empty($roles)): ?>
+                        <?php foreach ($roles as $rol): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($rol['id']) ?></td>
+                                <td><?= htmlspecialchars($rol['nombre']) ?></td>
+                                <td><?= htmlspecialchars($rol['num_usuarios']) ?></td>
+                                <td>
+                                    <a href="editar_rol.php?id=<?= $rol['id'] ?>" class="btn-accion btn-editar">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn-accion btn-eliminar" onclick="confirmarEliminar(<?= $rol['id']; ?>);">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="4" class="text-center">No hay roles registrados.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

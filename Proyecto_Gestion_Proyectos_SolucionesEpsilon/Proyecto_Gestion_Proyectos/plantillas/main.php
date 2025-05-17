@@ -57,39 +57,161 @@ if (isset($_GET['plantilla'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-       
-        h1 { text-align: center; }
-        .contenedor { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
-        .tarjeta { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-        .tarjeta img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
-        .tarjeta h3 { margin: 10px 0; font-size: 18px; }
-        .tarjeta a { display: block; padding: 10px; margin-top: 10px; background: #007BFF; color: white; text-decoration: none; border-radius: 5px; }
-        .tarjeta a:hover { background: #0056b3; }
+        .contenedor {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .tarjeta img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .tarjeta:hover img {
+            transform: scale(1.05);
+        }
+
+        .tarjeta h3 {
+            color: #0b4c66;
+            margin: 15px 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: 'Roboto Slab', serif;
+        }
+
+        .botones-container {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .btn-ver, .btn-descargar {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-ver i, .btn-descargar i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .btn-ver {
+            background: #0b4c66;
+            color: white;
+        }
+
+        .btn-descargar {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-ver:hover, .btn-descargar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-ver:hover {
+            background: #083d52;
+        }
+
+        .btn-descargar:hover {
+            background: #27ae60;
+        }
+
+        .encabezado-plantillas {
+            background: linear-gradient(135deg, #0b4c66, #083d52);
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .encabezado-plantillas h2 {
+            font-size: 2.5rem;
+            margin: 0;
+            font-family: 'Roboto Slab', serif;
+        }
+
+        .encabezado-plantillas p {
+            font-size: 1.1rem;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
-<?php MostrarNavbar(); ?>
-<h1>Selecciona una Plantilla</h1>
+    <?php MostrarNavbar(); ?>
+    
+    <div class="container mt-4">
+        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66; text-align: center;">Plantillas Disponibles</h2>
+    </div>
 
-<div class="contenedor">
-    <?php foreach ($plantillas as $archivo): ?>
-        <?php
-            $numero = preg_replace('/[^0-9]/', '', $archivo);
-            $thumbnail = $carpeta_thumbnails . 'plantilla' . $numero . '.jpg';
+    <div class="contenedor">
+        <?php foreach ($plantillas as $archivo): ?>
+            <?php
+                $numero = preg_replace('/[^0-9]/', '', $archivo);
+                $thumbnail = $carpeta_thumbnails . 'plantilla' . $numero . '.jpg';
 
-            // Verificar si la imagen realmente existe en la carpeta IMG
-            if (!file_exists(__DIR__ . '/../../IMG/plantilla' . $numero . '.jpg')) {
-                $thumbnail = 'https://via.placeholder.com/300x200.png?text=Sin+Vista+Previa';
-            }
-        ?>
-        <div class="tarjeta">
-            <img src="<?= $thumbnail ?>" alt="Vista previa de Plantilla <?= $numero ?>">
-            <h3>Plantilla <?= $numero ?></h3>
-            <a href="main.php?plantilla=<?= urlencode($archivo) ?>">Ver Plantilla</a>
-            <a href="descargar.php?archivo=<?= urlencode($archivo) ?>" style="background: green; display: block; margin-top: 10px;">Descargar</a>
-        </div>
-    <?php endforeach; ?>
-</div>
+                if (!file_exists(__DIR__ . '/../../IMG/plantilla' . $numero . '.jpg')) {
+                    $thumbnail = 'https://via.placeholder.com/300x200.png?text=Vista+Previa+No+Disponible';
+                }
+            ?>
+            <div class="tarjeta">
+                <img src="<?= $thumbnail ?>" alt="Vista previa de Plantilla <?= $numero ?>">
+                <h3>Plantilla <?= $numero ?></h3>
+                <div class="botones-container">
+                    <a href="main.php?plantilla=<?= urlencode($archivo) ?>" class="btn-ver">
+                        <i class="fas fa-eye"></i>
+                        <span>Ver</span>
+                    </a>
+                    <a href="descargar.php?archivo=<?= urlencode($archivo) ?>" class="btn-descargar">
+                        <i class="fas fa-download"></i>
+                        <span>Descargar</span>
+                    </a>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
 
 </body>
 </html>

@@ -123,22 +123,25 @@ $historial = $pdo->query("SELECT f.*, c.nombre FROM facturas f JOIN clientes c O
     <style>
         .form-container {
             background: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             margin: 25px auto;
             width: 80%;
+            max-width: 1320px;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 12px 20px;
+            grid-template-columns: 200px 1fr;
+            gap: 15px 25px;
             align-items: center;
+            margin-top: 20px;
         }
 
         .form-grid label {
-            font-weight: bold;
+            color: #0b4c66;
+            font-weight: 600;
         }
 
         .form-grid input[type="text"],
@@ -146,62 +149,74 @@ $historial = $pdo->query("SELECT f.*, c.nombre FROM facturas f JOIN clientes c O
         .form-grid input[type="number"],
         .form-grid select {
             width: 100%;
-            padding: 6px 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .form-actions {
-            grid-column: 2 / 3;
-            text-align: right;
-            margin-top: 10px;
+        .form-grid input:focus,
+        .form-grid select:focus {
+            border-color: #0b4c66;
+            box-shadow: 0 0 0 3px rgba(11, 76, 102, 0.1);
+            outline: none;
         }
 
         .btn-group {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             justify-content: center;
-            margin-bottom: 25px;
+            margin: 25px 0;
         }
 
-        .btn-group button {
-            padding: 10px 20px;
+        .btn-custom {
+            background-color: #0b4c66;
+            color: white;
+            padding: 12px 24px;
             border: none;
             border-radius: 8px;
-            background-color: #007bff;
-            color: white;
             cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
         }
 
-        .btn-group button:hover {
-            background-color: #0056b3;
+        .btn-custom:hover {
+            background-color: #083d52;
+            transform: translateY(-2px);
         }
 
         .form-submit {
-            background-color: #28a745;
+            background-color: #0b4c66;
             color: white;
+            padding: 12px 30px;
             border-radius: 8px;
-            padding: 10px 20px;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .form-submit:hover {
-            background-color: #218838;
+            background-color: #083d52;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 
 <body>
     <?php MostrarNavbar(); ?>
-
+    <div class="container mt-4">
+        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66;">RPA</h2>
+    </div>
     <div class="form-container">
-        <h2 style="text-align:center;">Enviar Factura</h2>
+        <h2 style="text-align:center; color: #0b4c66; margin-bottom: 20px;">Enviar Factura</h2>
 
-        <div class="btn-group" style="margin-top: 15px;">
-            <a href="crear_cliente.php"><button>Registrar Cliente</button></a>
-            <a href="reporte_mensual.php"><button>Ver Reporte Mensual</button></a>
-            <a href="historial_facturas.php"><button>Ver Historial de Facturas</button></a>
+        <div class="btn-group">
+            <a href="registrar_cliente.php" class="btn-custom">Registrar Cliente</a>
+            <a href="ver_reporte_mensual.php" class="btn-custom">Ver Reporte Mensual</a>
+            <a href="historial_facturas.php" class="btn-custom">Ver Historial de Facturas</a>
         </div>
 
         <form method="POST" class="form-grid">

@@ -34,6 +34,25 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&family=Roboto+Slab:wght@400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
+    <style>
+        .btn-custom {
+            background-color: #0b4c66 !important;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            min-width: 200px;
+            cursor: pointer;
+        }
+
+        .btn-custom:hover {
+            background-color: #083d52 !important;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
 
@@ -74,9 +93,9 @@ try {
         </select>
 
         <div class="d-flex justify-content-between">
-                <a href="listar_usuarios.php" class="btn btn-secondary">Atrás</a>
-                <button type="submit" class="btn btn-primary">Registrar Evaluación</button>
-            </div>
+            <a href="listar_usuarios.php" class="btn btn-custom">Atrás</a>
+            <button type="submit" class="btn btn-custom">Registrar Usuario</button>
+        </div>
     </form>
 </div>
 
@@ -99,17 +118,6 @@ document.getElementById('registroUsuarioForm').addEventListener('submit', functi
         }
     });
 });
-
-// Mostrar alertas de sesión si existen
-<?php if (isset($_SESSION['alert'])) : ?>
-    Swal.fire({
-        icon: "<?= $_SESSION['alert']['type']; ?>",
-        title: "<?= $_SESSION['alert']['message']; ?>",
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "Aceptar"
-    });
-    <?php unset($_SESSION['alert']); ?>
-<?php endif; ?>
 </script>
 
 </body>

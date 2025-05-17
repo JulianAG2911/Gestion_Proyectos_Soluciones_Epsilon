@@ -58,181 +58,232 @@ foreach ($tareas as $tarea) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.css">
     <style>
+    .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 20px;
+    }
+
     .kanban-board {
         display: flex;
         gap: 20px;
         padding: 20px;
-        background: #fff; 
-        border-radius: 10px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+        background: #f8f9fa;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin-top: 2rem;
     }
 
-    /* cada columna del Kanban */
     .kanban-column {
         flex: 1;
-        background: #f1f1f1; 
-        padding: 15px;
-        border-radius: 8px;
-        min-height: 400px;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        min-height: 500px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e9ecef;
     }
 
-    /* Títulos de las columnas */
     .kanban-column h4 {
         text-align: center;
-        font-weight: bold;
+        font-weight: 600;
         font-size: 1.2rem;
-        color: #333; 
-        margin-bottom: 15px;
+        color: #0b4c66;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b4c66;
     }
 
     .kanban-item {
-        background: #ffffff; 
+        background: white;
         padding: 15px;
         margin-bottom: 15px;
-        border-radius: 8px;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
-        transition: transform 0.2s; 
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
     }
 
     .kanban-item:hover {
-        transform: scale(1.02); 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
-    /* Títulos de las tareas */
     .kanban-item strong {
         font-size: 1.1rem;
-        color: #333;
-        font-weight: 600; 
+        color: #0b4c66;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 8px;
     }
 
-    /* Descripción de las tareas */
     .kanban-item p {
-        font-size: 0.9rem;
-        color: #666;
-        margin-top: 5px;
+        font-size: 0.95rem;
+        color: #495057;
+        line-height: 1.5;
+        margin: 10px 0;
     }
 
-    /* Responsables de las tareas */
     .kanban-item small {
         display: block;
-        font-size: 0.8rem;
-        color: #888;
-        margin-top: 10px;
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-top: 12px;
+        padding-top: 8px;
+        border-top: 1px solid #e9ecef;
     }
 
-    /* Botón para agregar tareas */
-    #formulario-tarea button {
-        background: #28a745;
+    #agregar-tarea-btn {
+        background-color: #0b4c66;
         color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background 0.3s ease;
-    }
-
-    #formulario-tarea button:hover {
-        background: #218838;
-    }
-
-    /* Formulario para agregar nuevas tareas */
-    #formulario-tarea input, 
-    #formulario-tarea textarea, 
-    #formulario-tarea select {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 1rem;
-    }
-
-    #formulario-tarea input[type="text"]:focus,
-    #formulario-tarea textarea:focus,
-    #formulario-tarea select:focus {
-        border-color: #28a745;
-        outline: none;
-    }
-
-    select {
-        background: #f8f9fa;
-        border: 1px solid #ccc;
-        padding: 10px;
-        border-radius: 5px;
-        font-size: 1rem;
-    }
-
-    select:focus {
-        border-color: #28a745;
-    }
-    #formulario-tarea button {
-        background: #007bff; 
-        color: white;
-        padding: 12px 20px;
+        padding: 12px 24px;
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        transition: background 0.3s ease, transform 0.3s ease;
+        font-size: 1rem;
+        font-weight: 500;
+        margin: 20px 0;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(11, 76, 102, 0.2);
+    }
+
+    #agregar-tarea-btn:hover {
+        background-color: #083d52;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(11, 76, 102, 0.3);
+    }
+
+    #formulario-tarea {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        margin: 20px 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e9ecef;
+    }
+
+    #formulario-tarea input,
+    #formulario-tarea textarea,
+    #formulario-tarea select {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0 16px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    #formulario-tarea input:focus,
+    #formulario-tarea textarea:focus,
+    #formulario-tarea select:focus {
+        border-color: #0b4c66;
+        box-shadow: 0 0 0 3px rgba(11, 76, 102, 0.1);
+        outline: none;
+    }
+
+    #formulario-tarea button {
+        background: #0b4c66;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
     }
 
     #formulario-tarea button:hover {
-        background: #0056b3;
-        transform: scale(1.05); 
+        background: #083d52;
+        transform: translateY(-1px);
     }
 
-    #formulario-tarea button:active {
-        background: #004085; 
-        transform: scale(1); 
+    select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23555' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5l4-4H4l4 4z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 35px !important;
     }
 
-    #formulario-tarea button:focus {
+    .text-center {
+        text-align: center;
+    }
+
+    .my-4 {
+        margin: 2rem 0;
+    }
+
+    /* Estilos para el selector de proyectos */
+    .proyecto-selector {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin: 20px 0;
+    }
+
+    .proyecto-selector label {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0b4c66;
+        margin-bottom: 12px;
+    }
+
+    .proyecto-selector select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 1rem;
+        color: #495057;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease;
+    }
+
+    .proyecto-selector select:hover {
+        border-color: #0b4c66;
+    }
+
+    .proyecto-selector select:focus {
+        border-color: #0b4c66;
+        box-shadow: 0 0 0 3px rgba(11, 76, 102, 0.1);
         outline: none;
-        box-shadow: 0 0 10px rgba(38, 143, 255, 0.8); 
     }
-    #agregar-tarea-btn {
-    background-color: #007bff; 
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background 0.3s ease, transform 0.3s ease; 
-}
-
-#agregar-tarea-btn:hover {
-    background-color: #0056b3; 
-    transform: scale(1.05); 
-}
-
-#agregar-tarea-btn:active {
-    background-color: #004085;
-    transform: scale(1); 
-}
-
-#agregar-tarea-btn:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(38, 143, 255, 0.8); 
-}
-</style>
+    </style>
 
 </head>
 <body>
     <?php
     MostrarNavbar();
     ?>
-
-<div class="container">
-        <h2 class="text-center my-4">Tablero de Tareas</h2>
-
+    <div class="container mt-4">
+        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66; text-align: center;">
+            <?php if ($proyecto_id): ?>
+                <?php 
+                $nombreProyecto = '';
+                foreach ($proyectos as $proyecto) {
+                    if ($proyecto['id'] == $proyecto_id) {
+                        $nombreProyecto = $proyecto['nombre'];
+                        break;
+                    }
+                }
+                ?>
+                Tareas del Proyecto: <?= htmlspecialchars($nombreProyecto) ?>
+            <?php else: ?>
+                Seleccione un Proyecto
+            <?php endif; ?>
+        </h2>
+    </div>
+    <div class="container">
         <!-- Selección de Proyecto -->
-        <form method="GET" action="board.php">
-            <label for="proyecto">Seleccionar Proyecto:</label>
+        <form method="GET" action="board.php" class="proyecto-selector">
+            <label for="proyecto">
+                <i class="fas fa-project-diagram"></i> 
+                Seleccionar Proyecto
+            </label>
             <select name="proyecto_id" id="proyecto" onchange="this.form.submit()">
                 <option value="">Seleccione un proyecto</option>
                 <?php foreach ($proyectos as $proyecto): ?>
@@ -345,3 +396,5 @@ foreach ($tareas as $tarea) {
             });
         });
     </script>
+</body>
+</html>

@@ -51,9 +51,79 @@ function actualizarRol($pdo, $id, $nombre) {
     <link rel="stylesheet" href="../CSS/estilos.css">
     <!-- Incluir SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .main-container {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #registro-rol {
+            flex: 0 0 350px;
+        }
+
+        #lista-roles {
+            flex: 1;
+        }
+
+        .btn-accion {
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .btn-editar {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .btn-eliminar {
+            background-color: #dc3545;
+        }
+
+        .btn-editar:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-eliminar:hover {
+            background-color: #c82333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #0b4c66;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+    </style>
 </head>
 <body>
 <?php MostrarNavbar(); ?>
+    <div class="container mt-4">
+        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66; text-align: center;">Gestión de Roles</h2>
+    </div>
     <div class="main-container">
         <div class="form-container" id="registro-rol"> 
             <h2>Registrar Nuevo Rol</h2>
@@ -64,7 +134,7 @@ function actualizarRol($pdo, $id, $nombre) {
             </form>
         </div>
 
-        <div class="form-container" id="registro-rol"> 
+        <div class="form-container" id="lista-roles"> 
             <h2>Lista de Roles</h2>
             <table>
                 <tr>
@@ -81,8 +151,12 @@ function actualizarRol($pdo, $id, $nombre) {
                     echo "<td>{$rol['nombre']}</td>";
                     echo "<td>{$rol['num_usuarios']}</td>";
                     echo "<td>
-                        <a href='editar_rol.php?id={$rol['id']}'>Editar</a> |
-                        <a href='eliminarRol.php?id={$rol['id']}' onclick='return confirm(\"¿Estás seguro de eliminar este rol?\")'>Eliminar</a>
+                        <a href='editar_rol.php?id={$rol['id']}' class='btn-accion btn-editar'>
+                            <i class='fas fa-edit'></i> Editar
+                        </a>
+                        <a href='javascript:void(0)' onclick='confirmarEliminar({$rol['id']})' class='btn-accion btn-eliminar'>
+                            <i class='fas fa-trash'></i> Eliminar
+                        </a>
                     </td>";
                     echo "</tr>";
                 }
@@ -110,5 +184,24 @@ function actualizarRol($pdo, $id, $nombre) {
         </script>";
     }
     ?>
+
+    <script>
+    function confirmarEliminar(id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esta acción no se puede deshacer",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'eliminarRol.php?id=' + id;
+            }
+        });
+    }
+    </script>
 </body>
 </html>
