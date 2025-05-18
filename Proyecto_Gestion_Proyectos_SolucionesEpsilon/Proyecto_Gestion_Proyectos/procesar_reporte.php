@@ -1,9 +1,9 @@
 <?php
 session_start();
-require 'pdf_reporte_generator.php';
-require 'db_config.php';
-require_once 'auth.php'; 
-require 'reportes_config.php';
+require_once 'pdf_reporte_generator.php';
+require_once 'db_config.php';
+require_once 'auth.php';
+require_once 'reportes_config.php';
 requireAdmin();
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -15,6 +15,7 @@ try {
 }
 $reporte = $_GET['reporte'] ?? '';
 $formato = $_GET['formato'] ?? 'pdf';
+$mode = $_GET['mode'] ?? 'download';
 
 if (!isset($REPORTES[$reporte])) {
     die('Reporte no válido.');
@@ -35,9 +36,13 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Exportar según formato
 switch (strtolower($formato)) {
     case 'pdf':
-        $pdf = new PDFReportGenerator($conf['titulo']);
-        $pdf->addTable($conf['headers'], $data);
-        $pdf->output("reporte_{$reporte}.pdf");
+        $generator = new PDFReportGenerator($conf['titulo']);
+        $generator->addTable($conf['headers'], $data);
+        if ($mode === 'preview') {
+            $generator->preview();
+        } else {
+            $generator->output("reporte_{$reporte}.pdf");
+        }
         break;
 
     case 'excel':

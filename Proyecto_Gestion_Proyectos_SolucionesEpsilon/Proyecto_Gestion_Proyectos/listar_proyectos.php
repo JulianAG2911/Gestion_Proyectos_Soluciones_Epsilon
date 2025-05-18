@@ -3,6 +3,9 @@ session_start();
 require_once 'db_config.php';
 include 'Plantilla.php';
 
+// Obtener el rol del usuario
+$isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1;
+
 try {
     $pdo = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -246,8 +249,10 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= htmlspecialchars($proyecto['estado']); ?></td>
                         <td>
                             <a href="ver_proyecto.php?id=<?= $proyecto['id']; ?>" class="btn-accion btn-ver">Ver Detalles</a>
-                            <a href="editar_proyecto.php?id=<?= $proyecto['id']; ?>" class="btn-accion btn-editar">Editar</a>
-                            <a href="javascript:void(0);" class="btn-accion btn-eliminar" onclick="confirmarEliminar(<?= $proyecto['id']; ?>);">Eliminar</a>
+                            <?php if ($isAdmin): ?>
+                                <a href="editar_proyecto.php?id=<?= $proyecto['id']; ?>" class="btn-accion btn-editar">Editar</a>
+                                <a href="javascript:void(0);" class="btn-accion btn-eliminar" onclick="confirmarEliminar(<?= $proyecto['id']; ?>);">Eliminar</a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

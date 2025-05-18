@@ -87,6 +87,7 @@ try {
         <div class="form-section">
             <h2>Seleccionar Reporte</h2>
             <form id="reporte-form" action="procesar_reporte.php" method="GET" target="reporte-preview">
+                <input type="hidden" name="mode" value="download">
                 <label for="reporte">Tipo de Reporte:</label>
                 <select name="reporte" required>
                     <?php foreach ($REPORTES as $key => $reporte): ?>
@@ -113,7 +114,12 @@ try {
         function previewReport() {
             const form = document.getElementById('reporte-form');
             form.target = 'reporte-preview';
+            // Cambiar el modo a preview
+            const modeInput = form.querySelector('input[name="mode"]');
+            modeInput.value = 'preview';
             form.submit();
+            // Restaurar el modo a download
+            modeInput.value = 'download';
         }
     </script>
 </body>
