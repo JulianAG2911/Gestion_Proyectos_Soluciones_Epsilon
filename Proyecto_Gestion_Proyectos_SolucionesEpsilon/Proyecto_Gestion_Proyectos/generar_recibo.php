@@ -1,6 +1,9 @@
+
 <?php
 require_once 'db_config.php';
-require('fpdf/fpdf.php');
+require_once 'dompdf/autoload.inc.php';
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 // Obtener el ID de la transacción
 $id = $_GET['id'] ?? null;
@@ -17,9 +20,9 @@ try {
 }
 
 // Obtener los datos de la transacción
-$sql = "SELECT t.id, t.tipo, t.monto, t.descripcion, t.fecha, c.nombre AS categoria 
-        FROM transacciones t 
-        LEFT JOIN categorias_gastos c ON t.categoria_id = c.id
+$sql = "SELECT t.id, t.tipo, t.monto, t.descripcion, t.fecha, c.nombre AS categoria
+         FROM transacciones t
+         LEFT JOIN categorias_gastos c ON t.categoria_id = c.id
         WHERE t.id = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$id]);
@@ -29,34 +32,211 @@ if (!$transaccion) {
     die("Transacción no encontrada.");
 }
 
-// Crear el PDF
-$pdf = new FPDF();
-$pdf->AddPage();
-$pdf->SetFont('Arial', 'B', 16);
-$pdf->Cell(190, 10, 'Recibo de Pago', 0, 1, 'C');
-$pdf->Ln(10);
+class PDFReportGenerator {
+    private $dompdf;
+    private $html;
+    private $title;
 
-$pdf->SetFont('Arial', '', 12);
-$pdf->Cell(50, 10, 'ID de Transacción:', 0);
-$pdf->Cell(50, 10, $transaccion['id'], 0, 1);
+    public function __construct($title) {
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('chroot', realpath(__DIR__ . '/../'));
 
-$pdf->Cell(50, 10, 'Tipo:', 0);
-$pdf->Cell(50, 10, ucfirst($transaccion['tipo']), 0, 1);
+        $this->dompdf = new Dompdf($options);
+        $this->title = $title;
+        $this->html = '<html><head>';
+        $this->html .= '<style>
+            body { 
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+            }
+            .header-container {
+                width: 100%;
+                border-bottom: 2px solid #0b4c66;
+                padding-bottom: 20px;
+                margin-bottom: 30px;
+                overflow: hidden; /* Para contener los elementos flotantes */
+                display: table; /* Usar table para mejor posicionamiento */
+                clear: both; /* Asegurar que nada flote alrededor */
+            }
+            .logo-text {
+                color: #0b4c66;
+                font-size: 24px;
+                font-weight: bold;
+                margin: 10px 0;
+                text-align: center;
+            }
+            .logo-container {
+                float: left;
+                width: 25%;
+                text-align: center;
+                display: table-cell; /* Usar display table-cell */
+                vertical-align: middle;
+            }
+            .logo-image {
+                width: 100px;
+                margin: 10px auto;
+            }
+            .company-info {
+                float: left;
+                width: 50%;
+                text-align: center;
+                display: table-cell; /* Usar display table-cell */
+                vertical-align: middle;
+            }
+            .company-info p {
+                margin: 5px 0;
+                font-size: 14px;
+            }
+            .report-container {
+                float: right;
+                width: 25%;
+                text-align: center;
+                display: table-cell; /* Usar display table-cell */
+                vertical-align: middle;
+            }
+            .report-box {
+                border: 2px solid #0b4c66;
+                display: inline-block;
+                padding: 10px 30px;
+                margin-top: 15px;
+            }
+            .report-box h3 {
+                margin: 0;
+                color: #0b4c66;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .report-box p {
+                margin: 5px 0 0 0;
+                font-size: 14px;
+            }
+            .transaction-details {
+                width: 100%;
+                margin-top: 40px;
+            }
+            .detail-row {
+                margin-bottom: 15px;
+                display: flex;
+            }
+            .detail-label {
+                font-weight: bold;
+                width: 150px;
+            }
+            .detail-value {
+                flex: 1;
+            }
+            .thank-you {
+                margin-top: 50px;
+                text-align: center;
+                font-size: 18px;
+                color: #0b4c66;
+            }
+            .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                text-align: center;
+                padding: 10px;
+                font-size: 12px;
+                color: #666;
+                border-top: 1px solid #ddd;
+            }
+        </style></head><body>';
 
-$pdf->Cell(50, 10, 'Monto:', 0);
-$pdf->Cell(50, 10, number_format($transaccion['monto'], 2) . " USD", 0, 1);
+        // Estructura del encabezado con distribución horizontal
+        $this->html .= '<div class="header-container">';
+        
+        // Logo a la izquierda
+        $this->html .= '<div class="logo-container">';
+        $this->html .= '<img src="' . realpath(__DIR__ . '/../IMG/Logo_SE.png') . '" class="logo-image">';
+        $this->html .= '</div>';
+        
+        // Información de la empresa en el centro
+        $this->html .= '<div class="company-info">';
+        $this->html .= '<div class="logo-text">Soluciones Epsilon</div>';
+        $this->html .= '<p>Desarrollos Tecnológicos Empresariales</p>';
+        $this->html .= '<p>Tel: +506 2222-2222</p>';
+        $this->html .= '<p>Email: contacto@epsilon.com</p>';
+        $this->html .= '<p>San José, Costa Rica</p>';
+        $this->html .= '</div>';
+        
+        // Cuadro de reporte a la derecha
+        $this->html .= '<div class="report-container">';
+        $this->html .= '<div class="report-box">';
+        $this->html .= '<h3>REPORTE</h3>';
+        $this->html .= '<p>' . htmlspecialchars($title) . '</p>';
+        $this->html .= '</div>';
+        $this->html .= '</div>';
+        
+        $this->html .= '</div>';
 
-$pdf->Cell(50, 10, 'Descripción:', 0);
-$pdf->MultiCell(130, 10, $transaccion['descripcion'], 0);
+        // Agregar el footer
+        $this->html .= '<div class="footer">';
+        $this->html .= 'Soluciones Epsilon © ' . date('Y') . ' - Página 1';
+        $this->html .= '</div>';
+    }
 
-$pdf->Cell(50, 10, 'Fecha:', 0);
-$pdf->Cell(50, 10, $transaccion['fecha'], 0, 1);
+    public function addTransactionDetails($transaccion) {
+        $this->html .= '<div style="clear: both;"></div>'; // Asegura que no haya elementos flotantes
+        $this->html .= '<div class="transaction-details">';
+        
+        // ID de Transacción
+        $this->html .= '<div class="detail-row">';
+        $this->html .= '<div class="detail-label">ID de Transacción:</div>';
+        $this->html .= '<div class="detail-value">' . htmlspecialchars($transaccion['id']) . '</div>';
+        $this->html .= '</div>';
+        
+        // Tipo
+        $this->html .= '<div class="detail-row">';
+        $this->html .= '<div class="detail-label">Tipo:</div>';
+        $this->html .= '<div class="detail-value">' . htmlspecialchars(ucfirst($transaccion['tipo'])) . '</div>';
+        $this->html .= '</div>';
+        
+        // Monto
+        $this->html .= '<div class="detail-row">';
+        $this->html .= '<div class="detail-label">Monto:</div>';
+        $this->html .= '<div class="detail-value">' . htmlspecialchars(number_format($transaccion['monto'], 2)) . ' USD</div>';
+        $this->html .= '</div>';
+        
+        // Descripción
+        $this->html .= '<div class="detail-row">';
+        $this->html .= '<div class="detail-label">Descripción:</div>';
+        $this->html .= '<div class="detail-value">' . htmlspecialchars($transaccion['descripcion']) . '</div>';
+        $this->html .= '</div>';
+        
+        // Fecha
+        $this->html .= '<div class="detail-row">';
+        $this->html .= '<div class="detail-label">Fecha:</div>';
+        $this->html .= '<div class="detail-value">' . htmlspecialchars($transaccion['fecha']) . '</div>';
+        $this->html .= '</div>';
+        
+        // Categoría
+        $this->html .= '<div class="detail-row">';
+        $this->html .= '<div class="detail-label">Categoría:</div>';
+        $this->html .= '<div class="detail-value">' . htmlspecialchars($transaccion['categoria'] ?? 'N/A') . '</div>';
+        $this->html .= '</div>';
+        
+        $this->html .= '</div>';
+        
+        // Mensaje de agradecimiento
+        $this->html .= '<div class="thank-you">Gracias por su pago</div>';
+    }
 
-$pdf->Cell(50, 10, 'Categoría:', 0);
-$pdf->Cell(50, 10, $transaccion['categoria'] ?? 'N/A', 0, 1);
+    public function output($filename) {
+        $this->html .= '</body></html>';
+        $this->dompdf->loadHtml($this->html);
+        $this->dompdf->setPaper('A4', 'portrait');
+        $this->dompdf->render();
+        $this->dompdf->stream($filename, array("Attachment" => false));
+    }
+}
 
-$pdf->Ln(20);
-$pdf->Cell(190, 10, 'Gracias por su pago', 0, 1, 'C');
-
-$pdf->Output();
+// Crear el reporte
+$reportGenerator = new PDFReportGenerator('Recibo de Pago');
+$reportGenerator->addTransactionDetails($transaccion);
+$reportGenerator->output("recibo_transaccion_" . $id . ".pdf");
 ?>

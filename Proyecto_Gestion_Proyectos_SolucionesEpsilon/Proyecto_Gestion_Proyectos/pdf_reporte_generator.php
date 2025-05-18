@@ -13,10 +13,12 @@ class PDFReportGenerator {
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true);
         $options->set('chroot', realpath(__DIR__ . '/../'));
+        $options->set('defaultFont', 'DejaVu Sans');
 
         $this->dompdf = new Dompdf($options);
         $this->title = $title;
-        $this->html = '<html><head>';
+        $this->html = '<!DOCTYPE html><html><head>';
+        $this->html .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
         $this->html .= '<style>
             body { 
                 font-family: Arial, sans-serif;
@@ -164,7 +166,11 @@ class PDFReportGenerator {
         foreach ($data as $row) {
             $this->html .= '<tr>';
             foreach ($row as $cell) {
-                $this->html .= '<td>' . htmlspecialchars($cell) . '</td>';
+                // Asegurar que el símbolo de colón se codifique correctamente
+                if (is_numeric($cell)) {
+                    $cell = '₡ ' . number_format($cell, 2);
+                }
+                $this->html .= '<td>' . htmlspecialchars($cell, ENT_QUOTES, 'UTF-8') . '</td>';
             }
             $this->html .= '</tr>';
         }
@@ -174,7 +180,7 @@ class PDFReportGenerator {
 
     public function output($filename) {
         $this->html .= '</body></html>';
-        $this->dompdf->loadHtml($this->html);
+        $this->dompdf->loadHtml($this->html, 'UTF-8');
         $this->dompdf->setPaper('A4', 'portrait');
         $this->dompdf->render();
         $this->dompdf->stream($filename, array("Attachment" => true));
