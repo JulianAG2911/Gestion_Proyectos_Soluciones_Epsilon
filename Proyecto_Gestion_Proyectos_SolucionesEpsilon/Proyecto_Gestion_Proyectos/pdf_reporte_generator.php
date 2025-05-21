@@ -13,12 +13,10 @@ class PDFReportGenerator {
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true);
         $options->set('chroot', realpath(__DIR__ . '/../'));
-        $options->set('defaultFont', 'DejaVu Sans');
 
         $this->dompdf = new Dompdf($options);
         $this->title = $title;
-        $this->html = '<!DOCTYPE html><html><head>';
-        $this->html .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
+        $this->html = '<html><head>';
         $this->html .= '<style>
             body { 
                 font-family: Arial, sans-serif;
@@ -130,8 +128,8 @@ class PDFReportGenerator {
         $this->html .= '<div class="company-info">';
         $this->html .= '<div class="logo-text">Soluciones Epsilon</div>';
         $this->html .= '<p>Desarrollos Tecnológicos Empresariales</p>';
-        $this->html .= '<p>Tel: +506 2222-2222</p>';
-        $this->html .= '<p>Email: contacto@epsilon.com</p>';
+        $this->html .= '<p>Tel: +506 6264 6903</p>';
+        $this->html .= '<p>Email: info@solucionesepsilon.com</p>';
         $this->html .= '<p>San José, Costa Rica</p>';
         $this->html .= '</div>';
         
@@ -166,11 +164,7 @@ class PDFReportGenerator {
         foreach ($data as $row) {
             $this->html .= '<tr>';
             foreach ($row as $cell) {
-                // Asegurar que el símbolo de colón se codifique correctamente
-                if (is_numeric($cell)) {
-                    $cell = '₡ ' . number_format($cell, 2);
-                }
-                $this->html .= '<td>' . htmlspecialchars($cell, ENT_QUOTES, 'UTF-8') . '</td>';
+                $this->html .= '<td>' . htmlspecialchars($cell) . '</td>';
             }
             $this->html .= '</tr>';
         }
@@ -180,7 +174,7 @@ class PDFReportGenerator {
 
     public function output($filename) {
         $this->html .= '</body></html>';
-        $this->dompdf->loadHtml($this->html, 'UTF-8');
+        $this->dompdf->loadHtml($this->html);
         $this->dompdf->setPaper('A4', 'portrait');
         $this->dompdf->render();
         $this->dompdf->stream($filename, array("Attachment" => true));

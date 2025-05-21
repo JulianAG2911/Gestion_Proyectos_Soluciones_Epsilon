@@ -159,8 +159,8 @@ class PDFReportGenerator {
         $this->html .= '<div class="company-info">';
         $this->html .= '<div class="logo-text">Soluciones Epsilon</div>';
         $this->html .= '<p>Desarrollos Tecnológicos Empresariales</p>';
-        $this->html .= '<p>Tel: +506 2222-2222</p>';
-        $this->html .= '<p>Email: contacto@epsilon.com</p>';
+        $this->html .= '<p>Tel: +506 6264 6903</p>';
+        $this->html .= '<p>Email: info@solucionesepsilon.com</p>';
         $this->html .= '<p>San José, Costa Rica</p>';
         $this->html .= '</div>';
         

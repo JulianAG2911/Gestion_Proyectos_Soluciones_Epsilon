@@ -74,9 +74,44 @@ include 'plantilla.php';
     <link rel="stylesheet" href="../CSS/estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .btn-eliminar {
+            background-color: #dc3545;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .btn-eliminar:hover {
+            background-color: #c82333;
+            color: white;
+        }
+        .btn-editar {
+            background-color: #0b4c66;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .btn-editar:hover {
+            background-color: #083d52;
+            color: white;
+        }
+    </style>
 </head>
 <body class="bg-light">
     <?php MostrarNavbar(); ?>
+    <?php if (isset($_SESSION['mensaje'])): ?>
+        <script>
+            Swal.fire({
+                icon: '<?php echo $_SESSION['mensaje']['tipo']; ?>',
+                title: '<?php echo $_SESSION['mensaje']['tipo'] === 'success' ? '¡Éxito!' : 'Error'; ?>',
+                text: '<?php echo $_SESSION['mensaje']['texto']; ?>',
+                confirmButtonColor: '#0b4c66'
+            });
+        </script>
+        <?php unset($_SESSION['mensaje']); ?>
+    <?php endif; ?>
 
     <div class="container mt-4">
         <h2 class="text-white p-3 rounded" style="background-color: #0b4c66; text-align:center;">Mis Evaluaciones</h2>
@@ -145,8 +180,8 @@ include 'plantilla.php';
                         <p><?= htmlspecialchars($evaluacion['comentarios']); ?></p>
                         <?php if ($es_admin): ?>
                             <div class="text-end">
-                                <a href="editar_evaluacion.php?id=<?= $evaluacion['id']; ?>" class="btn">Editar</a>
-                                <a href="javascript:void(0);" class="btn btn-eliminar"  onclick="confirmarEliminar(<?= $evaluacion['id']; ?>);">Eliminar</a>
+                                <a href="editar_evaluacion.php?id=<?= $evaluacion['id']; ?>" class="btn-editar">Editar</a>
+                                <a href="javascript:void(0);" class="btn-eliminar" onclick="confirmarEliminar(<?= $evaluacion['id']; ?>);">Eliminar</a>
                             </div>
                         <?php endif; ?>
                 </div>

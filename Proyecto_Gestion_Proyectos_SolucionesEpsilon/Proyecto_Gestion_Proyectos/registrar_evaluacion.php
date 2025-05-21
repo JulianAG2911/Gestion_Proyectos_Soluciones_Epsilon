@@ -79,7 +79,8 @@
 
             <div class="mb-3">
                 <label for="fecha" class="form-label">Fecha de Evaluación</label>
-                <input type="date" id="fecha" name="fecha" class="form-control" required>
+                <input type="date" id="fecha" name="fecha" class="form-control" 
+                       max="<?php echo date('Y-m-d'); ?>" required>
             </div>
 
             <div class="mb-3">
@@ -93,18 +94,21 @@
             </div>
 
             <div class="mb-3">
-                <label for="horas_trabajadas" class="form-label">Horas Trabajadas</label>
-                <input type="number" id="horas_trabajadas" name="horas_trabajadas" class="form-control" required>
+                <label for="horas_trabajadas" class="form-label">Horas Trabajadas (máx. 100)</label>
+                <input type="number" id="horas_trabajadas" name="horas_trabajadas" 
+                       class="form-control" min="1" max="100" required>
             </div>
 
             <div class="mb-3">
-                <label for="tareas_completadas" class="form-label">Tareas Completadas</label>
-                <input type="number" id="tareas_completadas" name="tareas_completadas" class="form-control" required>
+                <label for="tareas_completadas" class="form-label">Tareas Completadas (máx. 100)</label>
+                <input type="number" id="tareas_completadas" name="tareas_completadas" 
+                       class="form-control" min="0" max="100" required>
             </div>
 
             <div class="mb-3">
-                <label for="tareas_progreso" class="form-label">Tareas en Progreso</label>
-                <input type="number" id="tareas_progreso" name="tareas_progreso" class="form-control" required>
+                <label for="tareas_progreso" class="form-label">Tareas en Progreso (máx. 100)</label>
+                <input type="number" id="tareas_progreso" name="tareas_progreso" 
+                       class="form-control" min="0" max="100" required>
             </div>
 
             <div class="d-flex justify-content-between">

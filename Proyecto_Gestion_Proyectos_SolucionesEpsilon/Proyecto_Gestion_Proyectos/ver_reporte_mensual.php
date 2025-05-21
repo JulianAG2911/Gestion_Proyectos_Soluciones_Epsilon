@@ -216,11 +216,7 @@ class PDFReportGenerator {
         foreach ($data as $row) {
             $this->html .= '<tr>';
             foreach ($row as $cell) {
-                if (is_numeric($cell)) {
-                    $this->html .= '<td>₡' . number_format($cell, 2) . '</td>';
-                } else {
-                    $this->html .= '<td>' . htmlspecialchars($cell) . '</td>';
-                }
+                $this->html .= '<td>' . htmlspecialchars($cell) . '</td>';
             }
             $this->html .= '</tr>';
         }
@@ -244,7 +240,7 @@ class PDFReportGenerator {
     }
 }
 
-// Exportar a PDF con el nuevo formato estandarizado
+// Exportar a PDF 
 if (isset($_GET['exportar']) && $_GET['exportar'] == 'pdf') {
     // Título del reporte basado en el estado seleccionado
     $estado_titulo = '';
@@ -268,7 +264,7 @@ if (isset($_GET['exportar']) && $_GET['exportar'] == 'pdf') {
         $tableData[] = [
             $r['nombre'],
             $r['fecha_emision'],
-            $r['monto'], // Enviamos solo el número, el formato se aplicará en addTable
+            '₡' . number_format($r['monto'], 2),
             $estado_txt,
             $r['descripcion']
         ];
@@ -305,7 +301,7 @@ if (isset($_GET['exportar']) && $_GET['exportar'] == 'pdf') {
     exit;
 }
 
-// Exportar a CSV (sin cambios)
+// Exportar a CSV 
 if (isset($_GET['exportar']) && $_GET['exportar'] == 'csv') {
     header('Content-Type: text/csv');
     header("Content-Disposition: attachment; filename=Reporte_Mensual_{$mes}_{$anio}.csv");
