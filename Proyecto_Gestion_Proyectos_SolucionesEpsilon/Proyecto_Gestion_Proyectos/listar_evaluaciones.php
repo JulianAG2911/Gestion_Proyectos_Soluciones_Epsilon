@@ -29,17 +29,23 @@ $sql = "SELECT e.id, e.fecha, e.comentarios, e.puntuacion, e.horas_trabajadas,
         JOIN usuarios u ON e.usuario_id = u.id";
 
 $params = [];
+$where_added = false;
 
-if ($es_admin && $filtro_empleado) {
-    $sql .= " WHERE e.usuario_id = :usuario_id";
-    $params['usuario_id'] = $filtro_empleado;
+if ($es_admin) {
+    if ($filtro_empleado) {
+        $sql .= " WHERE e.usuario_id = :usuario_id";
+        $params['usuario_id'] = $filtro_empleado;
+        $where_added = true;
+    }
 } else {
     $sql .= " WHERE e.usuario_id = :usuario_id";
     $params['usuario_id'] = $usuario_id;
+    $where_added = true;
 }
 
 if ($filtro_fecha) {
-    $sql .= " AND DATE(e.fecha) = :fecha";
+    $sql .= $where_added ? " AND" : " WHERE";
+    $sql .= " DATE(e.fecha) = :fecha";
     $params['fecha'] = $filtro_fecha;
 }
 
