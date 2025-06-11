@@ -1,7 +1,8 @@
 <?php
 session_start();
 require_once 'db_config.php';
-
+require_once 'auth.php';
+requireLogin(); 
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");

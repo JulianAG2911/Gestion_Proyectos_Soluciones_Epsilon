@@ -2,6 +2,8 @@
 session_start();
 require_once 'db_config.php';
 include 'Plantilla.php';
+require_once 'auth.php';
+requireLogin(); 
 
 // Obtener el rol del usuario
 $isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1;

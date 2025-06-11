@@ -11,3 +11,15 @@ function requireAdmin() {
         exit();
     }
 }
+
+function requireLogin() {
+    if (!isset($_SESSION['user_id'])) {
+        $_SESSION['alert'] = [
+            'type' => 'error',
+            'message' => 'Debe iniciar sesión para acceder a esta página.',
+            'redirect' => 'login.php'
+        ];
+        header("Location: login.php");
+        exit();
+    }
+}

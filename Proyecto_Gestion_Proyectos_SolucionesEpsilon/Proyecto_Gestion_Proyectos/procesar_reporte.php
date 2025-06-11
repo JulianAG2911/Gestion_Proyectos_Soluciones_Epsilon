@@ -1,7 +1,8 @@
 <?php
 session_start();
-require_once 'pdf_reporte_generator.php';
-require_once 'db_config.php';
+require '../../vendor/autoload.php'; // Modificado para apuntar al directorio padre
+require 'pdf_reporte_generator.php'; 
+require 'db_config.php';
 require_once 'auth.php';
 require_once 'reportes_config.php';
 requireAdmin();
