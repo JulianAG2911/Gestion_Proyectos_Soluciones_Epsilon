@@ -17,6 +17,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $_POST['correo'];
     $telefono = $_POST['telefono'];
 
+    if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              <script>
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Correo inválido',
+                      text: 'Por favor, ingrese un correo con formato válido (ej. usuario@dominio.com).'
+                  });
+              </script>";
+        exit;
+    }
+
     $sql = "INSERT INTO clientes (nombre, correo, telefono) VALUES (?, ?, ?)";
     $stmt = $pdo->prepare($sql);
     if ($stmt->execute([$nombre, $correo, $telefono])) {

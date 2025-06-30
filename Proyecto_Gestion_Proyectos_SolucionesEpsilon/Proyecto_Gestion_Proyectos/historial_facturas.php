@@ -11,7 +11,6 @@ try {
     die("Error de conexión: " . $e->getMessage());
 }
 
-// Obtener historial
 $sql = "SELECT f.*, c.nombre FROM facturas f JOIN clientes c ON f.cliente_id = c.id ORDER BY f.fecha_emision DESC";
 $facturas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -114,7 +113,8 @@ $facturas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     <?php MostrarNavbar(); ?>
 
     <div class="container mt-4">
-        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66; text-align: center;">Historial de Facturas</h2>
+        <h2 class="text-white p-3 rounded" style="background-color: #0b4c66; text-align: center;">Historial de Facturas
+        </h2>
     </div>
 
     <div class="form-container">
@@ -134,8 +134,8 @@ $facturas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                     <td>₡<?= number_format($f['monto'], 2) ?></td>
                     <td><?= htmlspecialchars($f['descripcion']) ?></td>
                     <td>
-                        <select onchange="cambiarEstadoFactura(<?= $f['id'] ?>, this.value, this)" 
-                                class="<?= $f['pagada'] ? 'estado-pagada' : 'estado-impaga' ?>">
+                        <select onchange="cambiarEstadoFactura(<?= $f['id'] ?>, this.value, this)"
+                            class="<?= $f['pagada'] ? 'estado-pagada' : 'estado-impaga' ?>">
                             <option value="1" <?= $f['pagada'] ? 'selected' : '' ?>>Pagada</option>
                             <option value="0" <?= !$f['pagada'] ? 'selected' : '' ?>>Impaga</option>
                         </select>
@@ -155,21 +155,37 @@ $facturas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `id=${id}&estado=${nuevoEstado}`
             })
-            .then(res => res.json())
-            .then(data => {
-                if (!data.success) {
-                    // Revertir el cambio si hubo error
-                    selectElement.value = nuevoEstado === '1' ? '0' : '1';
-                    selectElement.className = nuevoEstado === '1' ? 'estado-impaga' : 'estado-pagada';
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Estado actualizado',
+                            text: 'La factura ha sido actualizada correctamente.',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        // Revertir el cambio si hubo error
+                        selectElement.value = nuevoEstado === '1' ? '0' : '1';
+                        selectElement.className = nuevoEstado === '1' ? 'estado-impaga' : 'estado-pagada';
+                        Swal.fire({
+                            title: 'Error',
+                            text: data.message || 'No se pudo actualizar.',
+                            icon: 'error'
+                        });
+                    }
+                })
+                .catch(error => {
                     Swal.fire({
-                        title: 'Error',
-                        text: data.message || 'No se pudo actualizar.',
+                        title: 'Error de conexión',
+                        text: 'No se pudo contactar al servidor.',
                         icon: 'error'
                     });
-                }
-            });
+                });
         }
     </script>
+
 </body>
 
 </html>
